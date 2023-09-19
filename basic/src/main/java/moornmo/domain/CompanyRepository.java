@@ -11,7 +11,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 //<<< PoEAA / Repository
 @RepositoryRestResource(collectionResourceRel="companies", path="companies")
-public interface CompanyRepository extends PagingAndSortingRepository<Company, >{
+public interface CompanyRepository extends PagingAndSortingRepository<Company, Long>{
     @Query(value = "select company " +
         "from Company company " +
         "where(:name is null or company.name like %:name%)")

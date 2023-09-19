@@ -5,17 +5,13 @@
 <script>
     import axios from 'axios'
     import BaseRepository from '../../repository/BaseRepository'
-
     import { ref } from 'vue';
 
 export default {
     name: 'baseEntityUi',
     props: {
         offline: Boolean,
-        value: {
-            type: [Object, String, Number, Boolean, Array],
-            default: () => ({}), // Set default value as function
-        },
+        modelValue: Object,
         editMode: Boolean,
         isNew: Boolean,
         inList: Boolean,
@@ -29,12 +25,12 @@ export default {
             repository: null,
             updateCompanyDiagram: false,
             openDialog : false,
+            value: {}
         };
     },
-    created() {
-        if (this.value == null) this.value = {};
-
+    async created() {
         this.repository = new BaseRepository(axios, this.path);
+        this.value = this.modelValue
     },
     methods: {
         selectFile() {
@@ -64,7 +60,7 @@ export default {
         edit() {
             this.editMode = true;
         },
-        save: async function() {
+        async save() {
             try {
                 var temp = null;
 
@@ -93,7 +89,7 @@ export default {
                 this.$EventBus.$emit('show-error', e);
             }
         },
-        delete: async function() {
+        async delete() {
             try {
                 if (!this.offline) {
                     await this.repository.delete(this.value)

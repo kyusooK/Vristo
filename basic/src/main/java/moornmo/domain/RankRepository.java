@@ -11,5 +11,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 //<<< PoEAA / Repository
 @RepositoryRestResource(collectionResourceRel="ranks", path="ranks")
-public interface RankRepository extends PagingAndSortingRepository<Rank, >{
+public interface RankRepository extends PagingAndSortingRepository<Rank, Long>{
 }

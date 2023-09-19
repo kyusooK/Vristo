@@ -4,12 +4,41 @@ import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
+import axios from 'axios';
+
+axios.defaults.baseURL = ''
 
 const vuetify = createVuetify({
     components,
     directives,
 })
+const fixUrl = async (path: string) => {
+    if (!axios.defaults.baseURL && path.startsWith('/')) {
+      return path;
+    }
+  
+    let url;
+  
+    try {
+      url = new URL(path);
+    } catch (e) {
+      url = new URL(axios.defaults.baseURL + path);
+    }
+  
+    if (!axios.defaults.baseURL) {
+      return url.pathname;
+    }
+  
+    url.hostname = new URL(axios.defaults.baseURL).hostname;
+    url.port = new URL(axios.defaults.baseURL).port;
+  
+    return url.href;
+};
+
 const app = createApp(App);
+
+app.config.globalProperties.$axios = axios;
+app.config.globalProperties.$fixUrl = fixUrl;
 
 app.use(vuetify)
 // pinia store

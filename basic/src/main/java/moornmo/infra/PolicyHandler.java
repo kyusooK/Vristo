@@ -16,13 +16,6 @@ import org.springframework.stereotype.Service;
 @Service
 @Transactional
 public class PolicyHandler {
-
-    @Autowired
-    Repository Repository;
-
-    @Autowired
-    Repository Repository;
-
     @Autowired
     CompanyRepository companyRepository;
 

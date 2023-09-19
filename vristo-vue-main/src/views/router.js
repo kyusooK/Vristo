@@ -5,7 +5,7 @@ import Router from 'vue-router'
 Vue.use(Router);
 
 
-import CompanyManager from "./components/ui/CompanyGrid"
+import CompanyManager from "./CompanyGrid"
 import RankManager from "./components/ui/RankGrid"
 
 

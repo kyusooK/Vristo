@@ -7,7 +7,7 @@
         <Email offline label="Email" v-model="value.email" :editMode="editMode" @change="change"/>
         <Money offline label="Money" v-model="value.money" :editMode="editMode" @change="change"/>
         <Address offline label="Address" v-model="value.address" :editMode="editMode" @change="change"/>
-
+       
         <v-divider class="border-opacity-100 my-divider"></v-divider>
         <v-layout row justify-end>
             <v-btn
@@ -24,23 +24,16 @@
 
 <script>
 
-import BaseEntity from './base-ui/BaseEntity'
+import BaseEntity from './components/base-ui/BaseEntity.vue'
 
 export default {
     name: 'Company',
     mixins:[BaseEntity],
     components:{
     },
-    
     data: () => ({
         path: "companies"
     }),
-    created(){
-    },
-    computed:{
-    },
-    methods: {
-    },
 }
 </script>
 
