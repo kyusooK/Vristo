@@ -9,10 +9,10 @@ spring:
     gateway:
 #<<< API Gateway / Routes
       routes:
-        - id: basic
+        - id: menu
           uri: http://localhost:8082
           predicates:
-            - Path=/companies/**, /ranks/**, 
+            - Path=/menuGroups/**, /menus/**, 
         - id: frontend
           uri: http://localhost:5173
           predicates:
