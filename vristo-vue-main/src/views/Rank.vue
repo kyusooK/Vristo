@@ -18,7 +18,7 @@
 
 <script>
 
-import BaseEntity from './base-ui/BaseEntity'
+import BaseEntity from './components/base-ui/BaseEntity.vue'
 
 export default {
     name: 'Rank',
@@ -27,7 +27,7 @@ export default {
     },
     
     data: () => ({
-        path: "ranks"
+        path: "menus"
     }),
     created(){
     },

@@ -61,7 +61,7 @@
                         >mdi-close</v-icon>
                     </v-toolbar>
                     <v-card-text>
-                        <Company :offline="offline"
+                        <Rank :offline="offline"
                             :isNew="!itemToEdit"
                             :editMode="true"
                             v-model="newValue"
@@ -94,21 +94,17 @@
 </template>
 
 <script>
-import MyComponent from './components/MyComponent.vue'
 import BaseGrid from './components/base-ui/BaseGrid.vue'
-import Company from './Company.vue';
 import Rank from './Rank.vue';
 
 export default {
-    name: 'companyGrid',
+    name: 'rankGrid',
     mixins:[BaseGrid],
     components:{
-        Company,
-        MyComponent,
-        Rank
+        Rank,
     },
     data: () => ({
-        path: 'menuGroups',
+        path: 'menus',
     }),
 }
 </script>

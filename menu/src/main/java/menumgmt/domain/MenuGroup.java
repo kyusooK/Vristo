@@ -22,7 +22,7 @@ public class MenuGroup {
 
     private String name;
 
-    private String group;
+    private String groupName;
 
     private Integer sequence;
 

@@ -18,12 +18,6 @@ import org.springframework.stereotype.Service;
 public class PolicyHandler {
 
     @Autowired
-    Repository Repository;
-
-    @Autowired
-    Repository Repository;
-
-    @Autowired
     MenuGroupRepository menuGroupRepository;
 
     @Autowired

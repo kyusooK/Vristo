@@ -37,10 +37,10 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: basic
-          uri: http://basic:8080
+        - id: menu
+          uri: http://localhost:8080
           predicates:
-            - Path=/undefined/**, /undefined/**, /companies/**, /ranks/**, 
+            - Path=/menuGroups/**, /menus/**, 
         - id: frontend
           uri: http://frontend:8080
           predicates:

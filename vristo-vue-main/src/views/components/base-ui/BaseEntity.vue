@@ -25,7 +25,8 @@ export default {
             repository: null,
             updateCompanyDiagram: false,
             openDialog : false,
-            value: {}
+            value: {},
+            newValue: {}
         };
     },
     async created() {

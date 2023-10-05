@@ -32,7 +32,7 @@ export default {
     components:{
     },
     data: () => ({
-        path: "companies"
+        path: "menuGroups"
     }),
 }
 </script>

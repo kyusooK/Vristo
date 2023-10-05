@@ -4,12 +4,11 @@ export default class BaseRepository{
 
         this.axios = axios
         this.path = path
-
     }
 
     async findById(id){
         try{
-             let result = await this.axios.get(this.axios.fixUrl(`/${this.path}/${id}`))
+             let result = await this.axios.get(this.fixUrl(`/${this.path}/${id}`))
              result.data.id = id;
              return result.data;
          }catch(e){
@@ -49,9 +48,9 @@ export default class BaseRepository{
 
     async save(entity, isNew){
         if(isNew) {
-            return await this.axios.post(this.axios.fixUrl(`/${this.path}`), entity)
+            return await this.axios.post(this.fixUrl(`/${this.path}`), entity)
         } else {
-            return await this.axios.put(this.axios.fixUrl(entity._links.self.href), entity)
+            return await this.axios.put(this.fixUrl(entity._links.self.href), entity)
         }
         
     }

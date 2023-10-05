@@ -15,139 +15,21 @@ export default {
         selectedRow: null,
         path: 'path',
         repository: null,
+        menu:[]
     }),
     mixins:[
         BaseEntity,
         BaseSecurity
     ],
-    // computed: {
-    //     username(){
-    //         return this.getUserName();
-    //     }
-    // },
     async created(){
-        
-        this.newValue = {name: 'test'}
-        var me = this;
-        var list = await me.search();
-        this.$emit('update:modelValue', list);
-        // this.dataService = new DataService();
-        // this.exportService = new ExportService();
+        this.value = this.modelValue
+        this.generateMenu();
     }, 
-    // beforeDestroy() {
-    //     this.exportService.cancelExcelExport();
-    // },
     methods:{
-        // flexInitialized(flexGrid) {
-        //     this.flex = flexGrid;
-        //     this.$refs.flexGrid = flexGrid;
-        //     let sd = new wjcCore.SortDescription("country", true);
-        //     flexGrid.collectionView.sortDescriptions.push(sd);
-        // },
-        // onSelectionChanged(s) {
-        //     if (s && s.collectionView) {
-        //         let selectedItem = s.collectionView.currentItem;
-        //         if (selectedItem) {
-        //             this.selectedRow = selectedItem;
-        //         }
-        //     }
-        // },
         addNewRow() {
             this.newValue = null
             this.openDialog = true;
         },
-        // editSelectedRow() {
-        //     const flexGrid = this.$refs.flexGrid;
-        //     const view = flexGrid.collectionView;
-
-        //     if (view.currentItem) {
-        //         this.itemToEdit = JSON.parse(JSON.stringify(view.currentItem));
-        //         this.newValue = this.itemToEdit
-        //         this.edit(this.itemToEdit);
-        //         this.$set(this, 'selectedRow', this.itemToEdit);
-
-        //         this.$nextTick(() => {
-        //             this.openDialog = true;
-        //         });
-        //     }
-        // },
-        // flexDetailsInitialized(flexGridDetails) {
-        //     this.$refs.flexGridDetails = flexGridDetails;
-        // },
-        // getSelectedItem(){
-        //     const flexGrid = this.$refs.flexGrid;
-        //     const view = flexGrid.collectionView;
-        //     return view.currentItem
-
-        // },
-        // async deleteSelectedRows() {
-        //     try {
-        //         if (!this.offline) {
-        //             const flexGrid = this.$refs.flexGrid;
-        //             const view = flexGrid.collectionView;
-        //             const selectedIndex = view.currentPosition;
-                    
-        //             if (view.currentItem) {
-        //                 await this.repository.delete(view.currentItem)
-                        
-        //                 view.remove(view.currentItem);
-
-        //                 this.value = view.sourceCollection;
-        //                 if (this.value.length > 0) {
-        //                     if (selectedIndex > 0) {
-        //                         this.selectedRow = this.value[Math.min(selectedIndex, this.value.length - 1)];
-        //                     } else {
-        //                         this.selectedRow = this.value[0];
-        //                     }
-        //                 } else {
-        //                     this.selectedRow = null;
-        //                 }
-        //             }
-        //         }
-        //     } catch(e) {
-        //         this.$EventBus.$emit('show-error', e);
-        //     }
-        // },
-        // groupPanelInitialized: function (ctl) {
-        //     this.groupPanel = ctl;
-        //     if (this.flex) {
-        //         this.groupPanel.grid = this.flex;
-        //     }
-        // },
-        // exportToPdf: function() {
-        //     this.exportService.exportToPdf(this.flex, {
-        //         countryMap: this._countryMap,
-        //         colorMap: this._colorMap,
-        //         historyCellTemplate: this.historyCellTemplate
-        //     });
-        // },
-        // _buildDataMap: function (items) {
-        //     const map = [];
-        //     for (let i = 0; i < items.length; i++) {
-        //         map.push({ key: i, value: items[i] });
-        //     }
-        //     return new DataMap(map, 'key', 'value');
-        // },
-        // getFlex: function () {
-        //     return this.flex;
-        // },
-        // departmentId(href){
-        //     if(href){
-        //         return href.split('/')[2]
-        //     }
-        //     return null;
-        // },
-        // getChangeCls: function (value) {
-        //     if (wjCore.isNumber(value)) {
-        //         if (value > 0) {
-        //             return 'change-up';
-        //         }
-        //         if (value < 0) {
-        //             return 'change-down';
-        //         }
-        //     }
-        //     return '';
-        // },
         append() {
             this.tick = false;
             this.openDialog = false
@@ -182,16 +64,17 @@ export default {
         async search(query) {
             var me = this;
             if(me.offline){
-                if(!me.modelValue) me.modelValue = [];
+                if(!me.value) me.value = [];
                 return;
             } 
             var temp = null;
 
             if(!me.offline){
                 temp = await this.repository.find(query)
+                this.value = temp
             }
 
-            return temp;
+            return this.value;
         },
         edit(){
             for(var i = 0; i < this.value.length; i++){
@@ -201,19 +84,39 @@ export default {
                 }
             }
             this.openDialog = false;
+        },
+        async generateMenu(){
+            let menuGroupVal = await this.repository.find()
+
+            for(var i = 0; i < menuGroupVal.length; i++){
+                if(!menuGroupVal[i].parentId){
+                    if(!this.menu.firstMenu){
+                        this.menu.firstMenu = []
+                    }
+                    this.menu.firstMenu.push(menuGroupVal[i])
+                }
+            }
+            for(var j = 0; j < this.menu.firstMenu.length; j++){
+                if(!this.menu.firstMenu[j].secondMenu){
+                    this.menu.firstMenu[j].secondMenu = []
+                }
+                this.menu.firstMenu[j].id = this.findId(this.menu.firstMenu[j])
+                for(var i = 0; i < menuGroupVal.length; i++){
+                    if(menuGroupVal[i].parentId && menuGroupVal[i].parentId.id){
+                        if(this.menu.firstMenu[j].id == menuGroupVal[i].parentId.id){
+                            this.menu.firstMenu[j].secondMenu.push(menuGroupVal[i])
+                        }
+                    }
+                }
+                console.log(this.menu)
+            }
+            
+        },
+        findId(val){
+            let id = val._links.self.href.split('/');
+            return id.pop()
         }
     },
-    // filters: {
-    //     safeCurrency: function (value) {
-    //         if (wjCore.isNumber(value)) {
-    //             return wjCore.Globalize.formatNumber(value, 'c');
-    //         }
-    //         if (!wjCore.isUndefined(value) && value !== null) {
-    //             return wjCore.changeType(value, wjCore.DataType.String);
-    //         }
-    //         return '';
-    //     }
-    // },
 }
 </script>
 
