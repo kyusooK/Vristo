@@ -565,9 +565,9 @@ const router = createRouter({
         component: () => import('../views/CompanyGrid.vue'),
     },
     {
-        path: '/finance',
-        name: 'finance',
-        component: () => import(/* webpackChunkName: "finance" */ '../views/finance.vue'),
+        path: '/ranks',
+        name: 'ranks',
+        component: () => import(/* webpackChunkName: "finance" */ '../views/RankGrid.vue'),
     },
     {
         path: '/crypto',

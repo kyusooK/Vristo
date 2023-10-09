@@ -83,7 +83,7 @@ export default {
       },
       {
         text: 'Rank',
-        link: '/finance',
+        link: '/ranks',
       },
     ],
     activeMenu: ref(null),

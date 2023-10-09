@@ -29,7 +29,7 @@ export default class BaseRepository{
 
     }
 
-    async find(query) {
+    async find(query, pathVal) {
          var temp = null;
          if(query!=null){
             let parameter = {
@@ -38,10 +38,10 @@ export default class BaseRepository{
 
             temp = await this.axios.get(this.fixUrl(`/${query.apiPath}`), parameter);
          }else{
-            temp = await this.axios.get(this.fixUrl(`/${this.path}`));
+            temp = await this.axios.get(this.fixUrl(`/${pathVal}`));
          }
 
-         return await this.afterProcess(temp.data._embedded[this.path]);
+         return await this.afterProcess(temp.data._embedded[pathVal]);
 
     }
 
